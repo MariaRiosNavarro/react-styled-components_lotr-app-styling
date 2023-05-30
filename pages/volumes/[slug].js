@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { volumes } from "../../lib/data";
+import styled from "styled-components";
 
 export default function VolumeDetail() {
   const router = useRouter();
@@ -17,10 +18,15 @@ export default function VolumeDetail() {
     return null;
   }
 
-  const { title, description, cover, books } = volume;
+  const { title, description, cover, books, color } = volume;
+
+  const StyledVolumeDiv = styled.div`
+    background-color: ${color};
+    color: white;
+  `;
 
   return (
-    <>
+    <StyledVolumeDiv>
       <Link href="/volumes">← All Volumes</Link>
       <h1>{title}</h1>
       <p>{description}</p>
@@ -51,6 +57,6 @@ export default function VolumeDetail() {
           </Link>
         </div>
       ) : null}
-    </>
+    </StyledVolumeDiv>
   );
 }
