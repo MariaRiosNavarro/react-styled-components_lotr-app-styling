@@ -18,31 +18,31 @@ export default function VolumeDetail() {
     return null;
   }
 
+  //add the color prop from the volume
   const { title, description, cover, books, color } = volume;
 
-  const StyledVolumeDiv = styled.div`
-    background-color: ${color};
-    color: white;
-  `;
-
   return (
-    <StyledVolumeDiv>
+    <StyledPageDiv>
       <Link href="/volumes">← All Volumes</Link>
       <h1>{title}</h1>
       <p>{description}</p>
-      <ul>
-        {books.map(({ ordinal, title }) => (
-          <li key={title}>
-            {ordinal}: <strong>{title}</strong>
-          </li>
-        ))}
-      </ul>
-      <Image
-        src={cover}
-        alt={`Cover image of ${title}`}
-        width={140}
-        height={230}
-      />
+      {/*Add the prop here */}
+      <StyledVolumeDiv backgroundColor={color}>
+        <StyledBookUl>
+          {books.map(({ ordinal, title }) => (
+            <StyledLiFlex key={title}>
+              {ordinal}: <strong>{title}</strong>
+            </StyledLiFlex>
+          ))}
+        </StyledBookUl>
+
+        <Image
+          src={cover}
+          alt={`Cover image of ${title}`}
+          width={140}
+          height={230}
+        />
+      </StyledVolumeDiv>
       {previousVolume ? (
         <div>
           <Link href={`/volumes/${previousVolume.slug}`}>
@@ -57,6 +57,38 @@ export default function VolumeDetail() {
           </Link>
         </div>
       ) : null}
-    </StyledVolumeDiv>
+    </StyledPageDiv>
   );
 }
+
+const StyledVolumeDiv = styled.div`
+  //use the prop here to change the background
+  background-color: ${(props) => {
+    if (!props.backgroundColor) {
+      return "white";
+    }
+    return props.backgroundColor;
+  }};
+
+  color: white;
+  display: flex;
+  padding: 24px;
+`;
+//add with to the page
+const StyledPageDiv = styled.div`
+  width: 390px;
+`;
+//add align to the ul
+const StyledBookUl = styled.ul`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+`;
+
+//add flex column to li
+
+const StyledLiFlex = styled.li`
+  display: flex;
+  flex-direction: column;
+`;
